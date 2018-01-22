@@ -17,6 +17,7 @@ class CreateSourceSitemapsTable extends Migration
             $table->increments('id');
             $table->integer('source_id');
             $table->string('sitemap_url')->unique();
+            $table->boolean('is_active')->default(true);
         });
     }
 
