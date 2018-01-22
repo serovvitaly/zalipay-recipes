@@ -13,7 +13,13 @@ class CreateSourceUrlsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('source_urls', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('source_id');
+            $table->integer('source_sitemap_id');
+            $table->string('url')->unique();
+            $table->boolean('hase_recipe');
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class CreateSourceUrlsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('source_urls');
     }
 }

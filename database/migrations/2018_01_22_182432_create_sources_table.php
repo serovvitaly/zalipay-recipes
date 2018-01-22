@@ -13,7 +13,12 @@ class CreateSourcesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('sources', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('url')->unique();
+            $table->string('handler');
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class CreateSourcesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('sources');
     }
 }

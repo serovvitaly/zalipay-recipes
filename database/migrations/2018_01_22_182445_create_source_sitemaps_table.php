@@ -13,7 +13,11 @@ class CreateSourceSitemapsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('source_sitemaps', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('source_id');
+            $table->string('sitemap_url')->unique();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ class CreateSourceSitemapsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('source_sitemaps');
     }
 }
