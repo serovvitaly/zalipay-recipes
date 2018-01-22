@@ -18,7 +18,7 @@ class CreateSourceUrlsTable extends Migration
             $table->integer('source_id');
             $table->integer('source_sitemap_id');
             $table->string('url')->unique();
-            $table->boolean('hase_recipe');
+            $table->tinyInteger('has_recipe')->default(0);
         });
     }
 
