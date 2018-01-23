@@ -42,7 +42,7 @@ class PagesCollect extends Command
         $urls = SourceUrl::where('source_sitemap_id', $this->argument('sitemapId'));
 
         foreach ($urls->get() as $urlModel) {
-            $this->collectorService->collectByUrl($urlModel->url);
+            $this->collectorService->collectByUrl($urlModel);
         }
     }
 }

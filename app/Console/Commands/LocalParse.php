@@ -1,0 +1,128 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\Source;
+use App\Models\SourceUrl;
+use App\Services\LocalParserService;
+use App\SourceHandlers\HandlerInterface;
+use Illuminate\Console\Command;
+
+
+class LocalParse extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'local:parse';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Парсер локальных сжатых файлов с контентом страниц';
+
+    protected $parserService;
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct(LocalParserService $parserService)
+    {
+        parent::__construct();
+
+        $this->parserService = $parserService;
+    }
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $handlers = array_map(
+            function($handler){
+                if (!class_exists($handler)) {
+                    return null;
+                }
+                $handler = new $handler;
+                if (!$handler instanceof HandlerInterface) {
+                    return null;
+                }
+                return $handler;
+            },
+            array_pluck(Source::all()->toArray(), 'handler', 'id')
+        );
+
+        $urls = SourceUrl::where('has_recipe', 0)->take(10)->get();
+
+        /** @var SourceUrl $url */
+        foreach ($urls as $url) {
+
+            if (!isset($handlers[$url->source_id])) {
+                $url->has_recipe = -5;
+                $url->save();
+                continue;
+            }
+
+            $filePath = '/media/vi/Хранилище/DATA/recipes_data/'
+                . $url->getHashPrefix() . '/'
+                . $url->getHash() . '.html.gz';
+
+            if (!file_exists($filePath)) {
+                $url->has_recipe = -10;
+                $url->save();
+                continue;
+            }
+
+            try {
+                $fileContent = file_get_contents($filePath);
+            } catch (\Exception $e) {
+                $url->has_recipe = -9;
+                $url->save();
+                continue;
+            }
+
+            if (empty($fileContent)) {
+                $url->has_recipe = -8;
+                $url->save();
+                continue;
+            }
+
+            try {
+                $content = gzdecode($fileContent);
+            } catch (\Exception $e) {
+                $url->has_recipe = -7;
+                $url->save();
+                continue;
+            }
+
+            $content = trim($content);
+
+            if (empty($content)) {
+                $url->has_recipe = -6;
+                $url->save();
+                continue;
+            }
+
+            /** @var HandlerInterface $handler */
+            $handler = $handlers[$url->source_id];
+
+            $recipeDto = $handler->getRecipeDtoByContent($content);
+
+            if (!$recipeDto) {
+                $url->has_recipe = -1;
+                $url->save();
+                continue;
+            }
+
+            $this->info($url->url);
+            print_r($recipeDto);
+            return;
+        }
+    }
+}

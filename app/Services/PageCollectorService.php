@@ -3,6 +3,8 @@
 namespace App\Services;
 
 
+use App\Models\SourceUrl;
+
 class PageCollectorService
 {
     protected $dirPath;
@@ -12,20 +14,18 @@ class PageCollectorService
         $this->dirPath = rtrim($dirPath, '/') . '/';
     }
 
-    public function collectByUrl($url): bool
+    public function collectByUrl(SourceUrl $url): bool
     {
-        $url = trim(strtolower($url));
-        $urlHash = md5($url);
-        $urlPrefix = substr($urlHash, 0, 2);
+        $urlPrefix = $url->getHashPrefix();
 
         if (!file_exists($this->dirPath . $urlPrefix)) {
             mkdir($this->dirPath . $urlPrefix);
         }
 
-        $filePath = $this->dirPath . $urlPrefix . '/' . $urlHash . '.html.gz';
+        $filePath = $this->dirPath . $urlPrefix . '/' . $url->getHash() . '.html.gz';
 
         try {
-            $content = file_get_contents($url);
+            $content = file_get_contents($url->url);
         } catch (\Exception $e) {
             return false;
         }

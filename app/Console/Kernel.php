@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\SitemapParse::class,
         \App\Console\Commands\PagesCollect::class,
+        \App\Console\Commands\LocalParse::class,
     ];
 
     /**
