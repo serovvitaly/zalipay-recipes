@@ -12,5 +12,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('default.recipes.list', [
+        'recipes' => \App\Models\Recipe::paginate(12),
+    ]);
+});
+
+Route::get('recipe{recipeId}', function (int $recipeId) {
+
+    $recipe = \App\Models\Recipe::findOrFail($recipeId);
+
+    return view('default.recipes.card', [
+        'recipe' => $recipe,
+    ]);
+})->where([
+    'recipeId' => '\d+'
+]);
+
+Route::get('dmca', function () {
+    return view('default.dmca');
 });

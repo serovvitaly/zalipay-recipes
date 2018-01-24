@@ -35,4 +35,19 @@ class Recipe extends Model
         $model->save();
         return $model;
     }
+
+    public function source_url()
+    {
+        return $this->belongsTo(SourceUrl::class, 'url_id', 'id');
+    }
+
+    public function ingredients()
+    {
+        return $this->hasMany(RecipeIngredient::class);
+    }
+
+    public function instructions()
+    {
+        return $this->hasMany(RecipeInstruction::class);
+    }
 }
