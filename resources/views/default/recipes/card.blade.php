@@ -8,8 +8,8 @@
                 <a class="small" target="_blank" href="{{ $recipe->source_url->url }}">{{ $recipe->source_url->url }}</a>
             </div>
             <ul class="list-group list-group-flush">
-                <img src="https://wowfood.club{{ $recipe->image }}" alt="{{ $recipe->name }}">
-                <li class="list-group-item">
+                <img style="width: 100%" src="https://wowfood.club{{ $recipe->image }}" alt="{{ $recipe->name }}">
+                <li lass="list-group-item">
                     <p>{{ $recipe->description }}</p>
                 </li>
                 <li class="list-group-item card-ingredients-header">Ингредиенты</li>
@@ -33,7 +33,7 @@
                 <div class="card-header">Шаг {{ $instruction->step_num }}</div>
                 <ul class="list-group list-group-flush">
                     @if(!empty($instruction->media_url))
-                    <img src="https://wowfood.club{{ $instruction->media_url }}" alt="{{ $instruction->text }}"/>
+                    <img style="width: 100%" src="https://wowfood.club{{ $instruction->media_url }}" alt="{{ $instruction->text }}"/>
                     @endif
                     <li class="list-group-item">{{ $instruction->text }}</li>
                 </ul>

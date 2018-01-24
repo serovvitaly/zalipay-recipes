@@ -24,7 +24,7 @@
             text-decoration: underline;
         }
         .card-instruction .card-header {
-            background: #f2695c;
+            background: #d8685e;
             font-weight: bold;
             color: white;
         }
