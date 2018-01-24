@@ -27,7 +27,7 @@ class RecipeDto implements RecipeDtoInterface
         array $ingredients,
         array $recipeInstructions = [],
         string $image = '',
-        int $recipeYield = 0,
+        string $recipeYield = '',
         string $totalTime = '',
         string $recipeCuisine = '',
         string $description = ''
@@ -37,7 +37,7 @@ class RecipeDto implements RecipeDtoInterface
         $this->ingredients = $ingredients;
         $this->recipeInstructions = $recipeInstructions;
         $this->image = trim($image);
-        $this->recipeYield = $recipeYield;
+        $this->recipeYield = trim($recipeYield);
         $this->totalTime = trim($totalTime);
         $this->recipeCuisine = trim($recipeCuisine);
         $this->description = trim($description);
@@ -59,7 +59,7 @@ class RecipeDto implements RecipeDtoInterface
         return $this->totalTime;
     }
 
-    public function recipeYield(): int
+    public function recipeYield(): string
     {
         return $this->recipeYield;
     }
@@ -77,5 +77,10 @@ class RecipeDto implements RecipeDtoInterface
     public function recipeInstructions(): array
     {
         return $this->recipeInstructions;
+    }
+
+    public function recipeCuisine(): string
+    {
+        return $this->recipeCuisine;
     }
 }

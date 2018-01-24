@@ -11,11 +11,19 @@ interface RecipeDtoInterface
 
     public function totalTime(): string;
 
-    public function recipeYield(): int;
+    public function recipeYield(): string;
 
     public function description(): string;
 
+    /**
+     * @return RecipeIngredientDtoInterface[]
+     */
     public function ingredients(): array;
 
+    /**
+     * @return RecipeInstructionDtoInterface[]
+     */
     public function recipeInstructions(): array;
+
+    public function recipeCuisine(): string;
 }

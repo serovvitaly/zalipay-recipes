@@ -3,7 +3,7 @@
 namespace App\Dto;
 
 
-class RecipeInstructionDto
+class RecipeInstructionDto implements RecipeInstructionDtoInterface
 {
     protected $stepNum;
     protected $text;

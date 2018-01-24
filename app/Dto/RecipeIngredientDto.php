@@ -3,7 +3,7 @@
 namespace App\Dto;
 
 
-class RecipeIngredientDto
+class RecipeIngredientDto implements RecipeIngredientDtoInterface
 {
     protected $name;
     protected $value;

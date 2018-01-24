@@ -6,6 +6,7 @@ use App\Models\Source;
 use App\Models\SourceUrl;
 use App\Services\LocalParserService;
 use App\SourceHandlers\HandlerInterface;
+use App\Services\RecipePersistingService;
 use Illuminate\Console\Command;
 
 
@@ -26,17 +27,20 @@ class LocalParse extends Command
     protected $description = 'Парсер локальных сжатых файлов с контентом страниц';
 
     protected $parserService;
+    protected $persistingService;
 
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param LocalParserService $parserService
+     * @param RecipePersistingService $persistingService
      */
-    public function __construct(LocalParserService $parserService)
+    public function __construct(LocalParserService $parserService, RecipePersistingService $persistingService)
     {
         parent::__construct();
 
         $this->parserService = $parserService;
+        $this->persistingService = $persistingService;
     }
 
     /**
@@ -58,10 +62,12 @@ class LocalParse extends Command
             array_pluck(Source::all()->toArray(), 'handler', 'id')
         );
 
-        $urls = SourceUrl::where('has_recipe', 0)->take(10)->get();
+        $urls = SourceUrl::where('has_recipe', 0)->where('source_id', 1)->get();
 
         /** @var SourceUrl $url */
         foreach ($urls as $url) {
+
+            $this->info($url->url);
 
             if (!isset($handlers[$url->source_id])) {
                 $url->has_recipe = -5;
@@ -112,7 +118,13 @@ class LocalParse extends Command
             /** @var HandlerInterface $handler */
             $handler = $handlers[$url->source_id];
 
-            $recipeDto = $handler->getRecipeDtoByContent($content);
+            try {
+                $recipeDto = $handler->getRecipeDtoByContent($content);
+            } catch (\Exception $e) {
+                $url->has_recipe = -3;
+                $url->save();
+                continue;
+            }
 
             if (!$recipeDto) {
                 $url->has_recipe = -1;
@@ -120,9 +132,17 @@ class LocalParse extends Command
                 continue;
             }
 
-            $this->info($url->url);
-            print_r($recipeDto);
-            return;
+            try {
+                $this->persistingService->store($url->id, $recipeDto);
+            } catch (\Exception $e) {
+                $url->has_recipe = -4;
+                $url->save();
+                $this->info($e->getMessage());
+                continue;
+            }
+
+            $url->has_recipe = 1;
+            $url->save();
         }
     }
 }

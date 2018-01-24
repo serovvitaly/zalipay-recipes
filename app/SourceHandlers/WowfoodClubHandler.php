@@ -22,6 +22,9 @@ class WowfoodClubHandler implements HandlerInterface
 
         $recipeIngredients = [];
         $recipeIngredientsList = $crawler->filterXPath('//*[@itemprop="recipeIngredient"]');
+        if (!$recipeIngredientsList->count()) {
+            return null;
+        }
         $recipeIngredientsList->each(function (Crawler $crawler) use (&$recipeIngredients) {
             $recipeIngredients[] = new RecipeIngredientDto(
                 $crawler->filter('dd')->text(),
@@ -31,6 +34,9 @@ class WowfoodClubHandler implements HandlerInterface
 
         $recipeInstructions = [];
         $recipeInstructionsList = $crawler->filterXPath('//*[@itemprop="recipeInstructions"]');
+        if (!$recipeInstructionsList->count()) {
+            return null;
+        }
         $stepNum = 1;
         $recipeInstructionsList->each(function (Crawler $crawler) use (&$recipeInstructions, &$stepNum) {
             $image = '';
