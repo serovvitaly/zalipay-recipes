@@ -24,6 +24,7 @@ class RecipeIngredient extends Model
         $model->recipe_id = $recipeId;
         $model->name = $ingredientDto->name();
         $model->value = $ingredientDto->value();
+        $model->ingredient_id = 1;
         $model->save();
         return $model;
     }

@@ -7,12 +7,12 @@
                 <h1>{{ $recipe->name }}</h1>
                 <a class="small" target="_blank" href="{{ $recipe->source_url->url }}">{{ $recipe->source_url->url }}</a>
             </div>
-            <ul class="list-group list-group-flush">
+            <div class="list-group list-group-flush">
                 <img style="width: 100%" src="https://wowfood.club{{ $recipe->image }}" alt="{{ $recipe->name }}">
-                <li lass="list-group-item">
-                    <p>{{ $recipe->description }}</p>
-                </li>
-                <li class="list-group-item card-ingredients-header">Ингредиенты</li>
+                <p lass="list-group-item">
+                    {{ $recipe->description }}
+                </p>
+                <p class="list-group-item card-ingredients-header">Ингредиенты</p>
                 <ul class="list-group list-group-flush">
                     <table class="table table-striped">
                         <tbody>
@@ -25,7 +25,7 @@
                         </tbody>
                     </table>
                 </ul>
-            </ul>
+            </div>
         </div>
 
         @foreach($recipe->instructions()->get() as $instruction)

@@ -31,3 +31,7 @@ Route::get('recipe{recipeId}', function (int $recipeId) {
 Route::get('dmca', function () {
     return view('default.dmca');
 });
+
+Route::get('/img/{width}x{height}/{image}', function (int $width, int $height, string $image) {
+    return $width . 'x' . $height . '/' . $image;
+});

@@ -62,7 +62,7 @@ class LocalParse extends Command
             array_pluck(Source::all()->toArray(), 'handler', 'id')
         );
 
-        $urls = SourceUrl::where('has_recipe', 0)->where('source_id', 1)->get();
+        $urls = SourceUrl::where('has_recipe', 0)->where('source_id', 6)->get();
 
         /** @var SourceUrl $url */
         foreach ($urls as $url) {

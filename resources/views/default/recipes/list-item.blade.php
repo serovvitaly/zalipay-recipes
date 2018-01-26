@@ -1,7 +1,7 @@
 <div class="col-lg-6">
     <div class="card">
         <a href="/recipe{{ $recipe->id }}">
-            <img class="card-img-top" src="https://wowfood.club{{ $recipe->image }}" alt="{{ $recipe->name }}">
+            <img class="card-img-top" src="/img/396x254/{{ md5($recipe->image) }}.jpg" alt="{{ $recipe->name }}">
         </a>
         <div class="card-body">
             <h5 class="card-title"><a href="/recipe{{ $recipe->id }}">{{ $recipe->name }}</a></h5>
