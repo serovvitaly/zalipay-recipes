@@ -23,6 +23,7 @@ Route::get('recipe{recipeId}', function (int $recipeId) {
 
     return view('default.recipes.card', [
         'recipe' => $recipe,
+        'recipes' => \App\Models\Recipe::paginate(5),
     ]);
 })->where([
     'recipeId' => '\d+'
@@ -32,6 +33,20 @@ Route::get('dmca', function () {
     return view('default.dmca');
 });
 
-Route::get('/img/{width}x{height}/{image}', function (int $width, int $height, string $image) {
-    return $width . 'x' . $height . '/' . $image;
+Route::get('/img/{width}x{height}/{image}', function (int $width, int $height, string $imageName) {
+
+    $dirPath = base_path() . "/public/img/{$width}x{$height}/";
+    if (!file_exists($dirPath)) {
+        mkdir($dirPath);
+    }
+    $filePath = base_path() . '/public/img/origin/' . $imageName;
+
+
+    $imageManager = new \Intervention\Image\ImageManager(['driver' => 'gd']);
+
+    $image = $imageManager->make($filePath)->widen($width)->crop($width, $height, 0, 0);
+
+    $image->save($dirPath . $imageName);
+
+    return $image->response('jpg');
 });

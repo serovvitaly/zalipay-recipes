@@ -37,6 +37,48 @@
             background: #ebe1be;
             padding-top: 14px;
         }
+        .recipe-list-item {
+            margin-bottom: 16px;
+        }
+        .title-image {
+
+        }
+        .title-image img{
+
+        }
+        .title-image h5{
+            position: relative !important;
+            display: inline !important;
+            line-height: 1.2 !important;
+            background: #fc0 !important;
+            color: #000 !important;
+        }
+        .card {
+            border: 1px solid #e1d1a1;
+        }
+        .menu-chessboard {
+            text-align: center;
+            font-size: 12px;
+        }
+        .menu-chessboard a{
+            color: white;
+            font-weight: bold;
+            padding: 16px 0;
+            line-height: 26px;
+        }
+        .menu-chessboard img{
+            width: 40%;
+        }
+        .menu-chessboard a:nth-child(odd){
+            background-color: #656d31;
+        }
+        .menu-chessboard a:nth-child(even){
+            background-color: #ccba7e;
+        }
+        .menu-chessboard a:hover{
+            text-decoration: none;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
