@@ -17,10 +17,6 @@ class CerateInstructionsTable extends Migration
             $table->increments('id');
             $table->string('name');
         });
-
-        Schema::table('recipe_ingredients', function (Blueprint $table) {
-            $table->addColumn('integer', 'ingredient_id');
-        });
     }
 
     /**
