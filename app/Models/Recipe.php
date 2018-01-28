@@ -50,4 +50,9 @@ class Recipe extends Model
     {
         return $this->hasMany(RecipeInstruction::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

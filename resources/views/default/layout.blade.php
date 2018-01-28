@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body{
@@ -50,8 +51,17 @@
             position: relative !important;
             display: inline !important;
             line-height: 1.2 !important;
-            background: #fc0 !important;
-            color: #000 !important;
+            background: #000 !important;
+            color: #fc0 !important;
+            font-weight: bold;
+            padding: 1px 3px;
+        }
+        .title-image span{
+            position: absolute;
+            display: block;
+            height: 183px;
+            top: 0;
+            padding: 3px;
         }
         .card {
             border: 1px solid #e1d1a1;
@@ -78,6 +88,9 @@
         .menu-chessboard a:hover{
             text-decoration: none;
             opacity: 0.7;
+        }
+        .recipe-list-item .card-footer {
+            padding: .5rem .8rem .7rem ;
         }
     </style>
 </head>

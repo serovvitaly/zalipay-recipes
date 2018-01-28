@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('tag{tagId}', function (int $tagId) {
+    /** @var \App\Models\Tag $tagModel */
+    $tagModel = \App\Models\Tag::findOrFail($tagId);
+    return view('default.recipes.list', [
+        'recipes' => $tagModel->recipes()->paginate(12),
+    ]);
+});
+
 Route::get('/', function () {
     return view('default.recipes.list', [
         'recipes' => \App\Models\Recipe::paginate(12),

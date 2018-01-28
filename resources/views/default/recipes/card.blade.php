@@ -10,6 +10,9 @@
             <div class="list-group list-group-flush">
                 <img style="width: 100%" src="/img/origin/{{ md5($recipe->image) }}.jpg" alt="{{ $recipe->name }}">
                 <p lass="list-group-item">
+                    @foreach($recipe->tags as $tag)
+                        <a href="/tag{{ $tag->id }}"><span class="badge badge-warning">{{ $tag->name }}</span></a>
+                    @endforeach
                     {{ $recipe->description }}
                 </p>
                 <p class="list-group-item card-ingredients-header">Ингредиенты</p>
